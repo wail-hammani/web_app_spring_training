@@ -9,15 +9,21 @@ import java.util.ArrayList;
 @RestController
 public class TodoListController
 {
-    ArrayList<Todo> todoList = new ArrayList<>();
+    TodoRepository todoRepository ;
+
+    public TodoListController(TodoRepository todoRepository) {
+        this.todoRepository = todoRepository;
+    }
+
     @PostMapping(value = "/api/todo")
-    public void AddTodo(@RequestBody Todo todo)
+    public TodoEntity AddTodo(@RequestBody TodoEntity todo)
     {
-        todoList.add(todo);
+        return todoRepository.save(todo);
     }
     @GetMapping(value = "/api/todo")
-    public ArrayList<Todo> ShowTodo()
+    public Iterable<TodoEntity> ShowTodo()
     {
-        return todoList;
+        return todoRepository.findAll();
+
     }
 }
